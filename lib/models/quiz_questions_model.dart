@@ -1,13 +1,13 @@
 import 'package:quiz_app/models/quiz_answers.dart';
 
-class QuizQuestions {
-  String questions;
+class QuizQuestion {
+  String question;
   List<Answers> answers;
 
-  QuizQuestions({this.questions, this.answers});
+  QuizQuestion({this.question, this.answers});
 
-  QuizQuestions.fromJson(Map<String, dynamic> json) {
-    questions = json['Questions'];
+  QuizQuestion.fromJson(Map<String, dynamic> json) {
+    question = json['Questions'];
     if (json['Answers'] != null) {
       answers = new List<Answers>();
       json['Answers'].forEach((v) {
@@ -18,7 +18,7 @@ class QuizQuestions {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['Questions'] = this.questions;
+    data['Questions'] = this.question;
     if (this.answers != null) {
       data['Answers'] = this.answers.map((v) => v.toJson()).toList();
     }

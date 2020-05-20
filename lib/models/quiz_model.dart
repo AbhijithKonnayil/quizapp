@@ -3,7 +3,7 @@ import 'package:quiz_app/models/quiz_questions_model.dart';
 class QuizModel {
   String appName;
   String eventConductedBy;
-  List<QuizQuestions> quizQuestions;
+  List<QuizQuestion> quizQuestions;
 
   QuizModel({this.appName, this.eventConductedBy, this.quizQuestions});
 
@@ -11,9 +11,9 @@ class QuizModel {
     appName = json['AppName'];
     eventConductedBy = json['Event Conducted By'];
     if (json['Quiz Questions'] != null) {
-      quizQuestions = new List<QuizQuestions>();
+      quizQuestions = new List<QuizQuestion>();
       json['Quiz Questions'].forEach((v) {
-        quizQuestions.add(new QuizQuestions.fromJson(v));
+        quizQuestions.add(new QuizQuestion.fromJson(v));
       });
     }
   }
