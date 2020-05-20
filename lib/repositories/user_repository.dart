@@ -33,18 +33,16 @@ class UserRepository {
         (String verificationId, [int forceResendingToken]) async {};
     final PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout =
         (String verificationId) {};
-    final PhoneVerificationFailed verificationFailed =
-        (AuthException authException) {
+    final PhoneVerificationFailed verificationFailed =await (AuthException authException) {
       throw (authException.message);
     };
-    final PhoneVerificationCompleted verificationCompleted =
-        (AuthCredential auth) async {
+    final PhoneVerificationCompleted verificationCompleted = await (AuthCredential auth) async {
       var authResult = await firebaseAuth.signInWithCredential(auth);
       if (authResult.user != null) {
         user = authResult.user;
         return user;
       } else {
-        throw ('Error');
+        return null;
       }
     };
 

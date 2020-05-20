@@ -22,13 +22,15 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     if (event is LoginButtonClicked) {
       try {
         yield LoginLoadState();
-        var response =
-            await userRepository.loginUser(event.phone);
-            yield LoginSuccessState();
-       
+        var response = await userRepository.loginUser(event.phone);
+        if (response != null) {
+          yield LoginSuccessState();
+        } else {
+          throw ('Login Error');
+        }
       } catch (e) {
         yield LoginFailureState();
-        await Future.delayed(Duration(seconds: 2));
+        await Future.delayed(Duration(seconds: 3));
         yield LoginInitial();
       }
     }

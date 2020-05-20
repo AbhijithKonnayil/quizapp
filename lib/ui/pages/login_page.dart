@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:quiz_app/blocs/login_bloc/login_bloc.dart';
+import 'package:quiz_app/main.dart';
 import 'package:quiz_app/repositories/user_repository.dart';
 import 'package:quiz_app/theme/theme.dart';
 import 'package:quiz_app/ui/pages/quiz_home_page.dart';
@@ -53,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
                         Navigator.pop(context);
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                          return QuizHomePage();
+                          return BaseApp(userRepository: loginBloc.userRepository,);
                         }));
                       }
                     },
@@ -86,8 +87,7 @@ class _LoginPageState extends State<LoginPage> {
                     children: <Widget>[
                       Text(
                         "image credits : freepik.com",
-                        style:
-                            TextStyle(fontSize: 10, color: Colors.black38),
+                        style: TextStyle(fontSize: 10, color: Colors.black38),
                       )
                     ],
                   )
