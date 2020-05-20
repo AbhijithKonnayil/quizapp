@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:quiz_app/blocs/quiz_bloc/quiz_bloc.dart';
+import 'package:quiz_app/main.dart';
 import 'package:quiz_app/models/quiz_questions_model.dart';
 import 'package:quiz_app/theme/theme.dart';
 import 'package:quiz_app/ui/widgets/custom_widgets.dart';
@@ -39,8 +40,8 @@ class _QuizHomePageState extends State<QuizHomePage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                  /* FlatButton(
-                    onPressed: () {},
+                  FlatButton(
+                    onPressed: () => quizBloc.add(LogOutEvent()),
                     child: Container(
                       padding: EdgeInsets.all(10),
                       decoration: BoxDecoration(
@@ -50,32 +51,45 @@ class _QuizHomePageState extends State<QuizHomePage> {
                         "Logout",
                       ),
                     ),
-                  ) */
+                  )
                 ],
               ),
               Expanded(
-                child: BlocBuilder<QuizBloc, QuizState>(
-                  builder: (context, state) {
-                    if (state is QuizInitial) {
-                      return Container();
-                    } else if (state is QuizQuestionLoad) {
-                      return Center(
-                        child: SpinKitCircle(
-                          color: Colors.white,
-                        ),
-                      );
-                    } else if (state is QuizQuestionLoadSuccessState) {
-                      questions = state.questions;
-                      markedIndex = List<int>(questions.length);
-                      return buildInitialPage();
-                    } else if (state is QuizQuestionLoadFailureState) {
-                      return Text(state.message);
-                    } else if (state is QuizStartedState) {
-                      return buildquizUi();
-                    } else if (state is QuizFinisedState) {
-                      return buildFinalPage();
+                child: BlocListener<QuizBloc, QuizState>(
+                  listener: (context, state) {
+                    if (state is LogOutSuccessState) {
+                      Navigator.pop(context);
+                      Navigator.push(context, MaterialPageRoute(builder: (c) {
+                        return QuizApp();
+                      }));
                     }
                   },
+                  child: BlocBuilder<QuizBloc, QuizState>(
+                    builder: (context, state) {
+                      print(state);
+                      if (state is QuizInitial) {
+                        return Container();
+                      } else if (state is QuizQuestionLoad) {
+                        return Center(
+                          child: SpinKitCircle(
+                            color: Colors.white,
+                          ),
+                        );
+                      } else if (state is QuizQuestionLoadSuccessState) {
+                        questions = state.questions;
+                        markedIndex = List<int>(questions.length);
+                        return buildInitialPage();
+                      } else if (state is QuizQuestionLoadFailureState) {
+                        return Text(state.message);
+                      } else if (state is QuizStartedState) {
+                        return buildquizUi();
+                      } else if (state is QuizFinisedState) {
+                        return buildFinalPage();
+                      } else if (state is LogOutSuccessState) {
+                        return Container();
+                      }
+                    },
+                  ),
                 ),
               )
             ],
@@ -103,11 +117,37 @@ class _QuizHomePageState extends State<QuizHomePage> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Text("Rules",style: TextStyle(color:Colors.white,fontSize: 25),),
-        Text("Correct answer ->  10 Points",style: TextStyle(color:Colors.white,fontSize: 15,),textAlign: TextAlign.left,),
-        Text("Wrong answer ->  -1 Points",style: TextStyle(color:Colors.white,fontSize: 15,),textAlign: TextAlign.left,),
-        Text("Unattended answer ->  0 Points",style: TextStyle(color:Colors.white,fontSize: 15,),textAlign: TextAlign.left,),
-        SizedBox(height: 25,),
+        Text(
+          "Rules",
+          style: TextStyle(color: Colors.white, fontSize: 25),
+        ),
+        Text(
+          "Correct answer ->  10 Points",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 15,
+          ),
+          textAlign: TextAlign.left,
+        ),
+        Text(
+          "Wrong answer ->  -1 Points",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 15,
+          ),
+          textAlign: TextAlign.left,
+        ),
+        Text(
+          "Unattended answer ->  0 Points",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 15,
+          ),
+          textAlign: TextAlign.left,
+        ),
+        SizedBox(
+          height: 25,
+        ),
         Container(
           width: double.infinity,
           child: FlatButton(
@@ -233,10 +273,8 @@ class _QuizHomePageState extends State<QuizHomePage> {
                 child: Center(
                     child: Column(
                   children: <Widget>[
-                    Text(
-                      "Result",
-                      style: TextStyle(fontSize: 40)),
-                      Divider(),
+                    Text("Result", style: TextStyle(fontSize: 40)),
+                    Divider(),
                     Text("Attended Questions : $attended"),
                     Text("Correct Answers : $correct"),
                     Text("Wrong Answers : $wrong"),

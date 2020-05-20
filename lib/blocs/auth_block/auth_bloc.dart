@@ -29,5 +29,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         yield UnAuthenticatedState();
       }
     }
+    
   }
 }

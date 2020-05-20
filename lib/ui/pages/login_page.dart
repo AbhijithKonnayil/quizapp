@@ -33,19 +33,24 @@ class _LoginPageState extends State<LoginPage> {
         child: SingleChildScrollView(
           child: Container(
             height: MediaQuery.of(context).size.height,
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsets.fromLTRB(10, 10, 10, 2),
             child: SafeArea(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
+                  Text(
+                    "Flutter Kerala ",
+                    style: TextStyle(color: Colors.white, fontSize: 25),
+                  ),
                   Expanded(
                     child: Center(
-                      child: Image.asset('images/logo.jpg'),
+                      child: Image.asset('images/image1.png'),
                     ),
                   ),
                   BlocListener<LoginBloc, LoginState>(
                     listener: (context, state) {
                       if (state is LoginSuccessState) {
+                        Navigator.pop(context);
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
                           return QuizHomePage();
@@ -57,7 +62,11 @@ class _LoginPageState extends State<LoginPage> {
                       if (state is LoginInitial) {
                         return buildPhoneField();
                       } else if (state is LoginLoadState) {
-                        return Center(child: SpinKitCircle());
+                        return Center(
+                            child: SpinKitCircle(
+                          size: 50,
+                          color: Colors.white,
+                        ));
                       } else if (state is LoginFailureState) {
                         return Center(
                             child: Text(
@@ -68,6 +77,19 @@ class _LoginPageState extends State<LoginPage> {
                         return Container();
                       }
                     }),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      Text(
+                        "image credits : freepik.com",
+                        style:
+                            TextStyle(fontSize: 10, color: Colors.black38),
+                      )
+                    ],
                   )
                 ],
               ),

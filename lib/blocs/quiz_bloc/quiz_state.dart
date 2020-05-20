@@ -23,3 +23,4 @@ class QuizQuestionLoadFailureState extends QuizState {
 
 class QuizStartedState extends QuizState {}
 class QuizFinisedState extends QuizState {}
+class LogOutSuccessState extends QuizState{}

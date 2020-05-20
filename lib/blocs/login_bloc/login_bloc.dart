@@ -24,6 +24,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         yield LoginLoadState();
         var response =
             await userRepository.loginUser(event.phone);
+            yield LoginSuccessState();
        
       } catch (e) {
         yield LoginFailureState();

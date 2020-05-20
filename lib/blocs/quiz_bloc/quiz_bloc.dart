@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
+import 'package:quiz_app/blocs/auth_block/auth_event.dart';
 import 'package:quiz_app/models/quiz_model.dart';
 import 'package:quiz_app/models/quiz_questions_model.dart';
 import 'package:quiz_app/repositories/quiz_repository.dart';
@@ -34,6 +35,11 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
       yield QuizStartedState();
     } else if (event is QuizFinishedEvent) {
       yield QuizFinisedState();
+    } else if (event is LogOutEvent) {
+      try {
+        var response = await userRepository.logoutUser();
+        yield LogOutSuccessState();
+      } catch (e) {}
     }
   }
 }
